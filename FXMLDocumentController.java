@@ -18,13 +18,13 @@ import javafx.scene.control.Label;
 public class FXMLDocumentController implements Initializable {
     
     @FXML
-    private Label label;
-    
+    private Pane gamePane;
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private Label scoreLabel;
+    @FXML
+    private Label livesLabel;
+    @FXML
+    private ImageView basket;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
