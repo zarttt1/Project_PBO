@@ -25,6 +25,8 @@ public class FXMLDocumentController implements Initializable {
     private Label livesLabel;
     @FXML
     private ImageView basket;
+
+    private final Basket playerBasket = new Basket();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
