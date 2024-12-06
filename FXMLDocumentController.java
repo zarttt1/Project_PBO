@@ -31,6 +31,11 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
+    private void updateScoreAndLives() {
+        scoreLabel.setText("Score: " + score);
+        livesLabel.setText("Lives: " + playerBasket.getLives());
+    }
     
 }
