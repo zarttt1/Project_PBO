@@ -27,6 +27,10 @@ public class FXMLDocumentController implements Initializable {
     private ImageView basket;
 
     private final Basket playerBasket = new Basket();
+    private static int score = 0;
+    private AnimationTimer gameTimer;
+    private double velocityX = 0;
+    private List<ImageView> fallingItems = new ArrayList<>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
