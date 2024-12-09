@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  *
  * @author ACER
  */
-public class Template extends Application {
+public class ProjekPBOV2 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
