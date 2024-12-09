@@ -62,6 +62,22 @@ private void handleKeyReleased(KeyEvent event) {
             velocityX = 0;
         }
     }
+
+private void startGame() {
+        score = 0;
+        playerBasket.setLives(4);
+        updateScoreAndLives();
+
+        gameTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                spawnItems();
+                checkCollisions();
+                updateBasketPosition();
+            }
+        };
+        gameTimer.start();
+    }
     
 private void updateBasketPosition() {
         double newX = basket.getLayoutX() + velocityX;
