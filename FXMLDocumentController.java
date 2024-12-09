@@ -10,6 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import static javafx.scene.input.KeyCode.LEFT;
+import static javafx.scene.input.KeyCode.RIGHT;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -53,6 +58,13 @@ public class FXMLDocumentController implements Initializable {
     private void handleKeyReleased(KeyEvent event) {
         if (event.getCode() == LEFT || event.getCode() == RIGHT) {
             velocityX = 0;
+        }
+    }
+    
+    private void updateBasketPosition() {
+        double newX = basket.getLayoutX() + velocityX;
+        if (newX >= 0 && newX <= (gamePane.getWidth() - basket.getFitWidth())) {
+            basket.setLayoutX(newX);
         }
     }
 
