@@ -162,5 +162,9 @@ private void updateScoreAndLives() {
         scoreLabel.setText("Score: " + score);
         livesLabel.setText("Lives: " + playerBasket.getLives());
     }
-    
+
+private void endGame() {
+        gameTimer.stop();
+    }
+
 }
