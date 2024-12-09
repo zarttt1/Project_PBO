@@ -23,28 +23,28 @@ import javafx.scene.layout.Pane;
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
-    private Pane gamePane;
-    @FXML
-    private Label scoreLabel;
-    @FXML
-    private Label livesLabel;
-    @FXML
-    private ImageView basket;
+@FXML
+private Pane gamePane;
+@FXML
+private Label scoreLabel;
+@FXML
+private Label livesLabel;
+@FXML
+private ImageView basket;
 
-    private final Basket playerBasket = new Basket();
-    private static int score = 0;
-    private AnimationTimer gameTimer;
-    private double velocityX = 0;
-    private List<ImageView> fallingItems = new ArrayList<>();
+private final Basket playerBasket = new Basket();
+private static int score = 0;
+private AnimationTimer gameTimer;
+private double velocityX = 0;
+private List<ImageView> fallingItems = new ArrayList<>();
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+@Override
+public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
-    @FXML
-    private void handleKeyPressed(KeyEvent event) {
+@FXML
+private void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case LEFT:
                 velocityX = -playerBasket.getSpeed();
@@ -55,21 +55,21 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleKeyReleased(KeyEvent event) {
+@FXML
+private void handleKeyReleased(KeyEvent event) {
         if (event.getCode() == LEFT || event.getCode() == RIGHT) {
             velocityX = 0;
         }
     }
     
-    private void updateBasketPosition() {
+private void updateBasketPosition() {
         double newX = basket.getLayoutX() + velocityX;
         if (newX >= 0 && newX <= (gamePane.getWidth() - basket.getFitWidth())) {
             basket.setLayoutX(newX);
         }
     }
     
-        private void spawnItems() {
+private void spawnItems() {
         if (Math.random() < 0.1) {
             Item item = generateRandomItem();
             String imagePath = "file:/C:/Users/ACER/OneDrive/Documents/NetBeansProjects/ProjekPBOV2/src/projekpbov2/" + item.getName() + ".png";
@@ -103,7 +103,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-        private Item generateRandomItem() {
+private Item generateRandomItem() {
         int random = (int) (Math.random() * 4);
         switch (random) {
             case 0: return new Star();
@@ -113,8 +113,35 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+private void checkCollisions() {
+        for (Node node : gamePane.getChildren()) {
+            if (node instanceof ImageView && node.getUserData() instanceof Item) {
+                ImageView itemView = (ImageView) node;
+                Item item = (Item) itemView.getUserData();
 
-    private void updateScoreAndLives() {
+                if (basket.getBoundsInParent().intersects(itemView.getBoundsInParent())) {
+                    handleCollision(item);
+                    gamePane.getChildren().remove(itemView);
+                    fallingItems.remove(itemView);
+                    break;
+                }
+            }
+        }
+    }
+
+private void handleCollision(Item item) {
+        score += item.getPointValue();
+        if (item instanceof Bomb) {
+            playerBasket.setLives(playerBasket.getLives() - 1);
+        }
+        updateScoreAndLives();
+
+        if (playerBasket.getLives() <= 0) {
+            endGame();
+        }
+    }
+    
+private void updateScoreAndLives() {
         scoreLabel.setText("Score: " + score);
         livesLabel.setText("Lives: " + playerBasket.getLives());
     }
