@@ -1,13 +1,15 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXController.java to edit this template
  */
+
 package projekpbov2;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,30 +20,31 @@ import static javafx.scene.input.KeyCode.RIGHT;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
-/**
- *
- * @author ACER
- */
 public class FXMLDocumentController implements Initializable {
-    
-@FXML
-private Pane gamePane;
-@FXML
-private Label scoreLabel;
-@FXML
-private Label livesLabel;
-@FXML
-private ImageView basket;
 
-private final Basket playerBasket = new Basket();
-private static int score = 0;
-private AnimationTimer gameTimer;
-private double velocityX = 0;
-private List<ImageView> fallingItems = new ArrayList<>();
-    
+    @FXML
+    private Pane gamePane;
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private Label livesLabel;
+    @FXML
+    private ImageView basket;
+
+    private final Basket playerBasket = new Basket();
+    private static int score = 0;
+    private AnimationTimer gameTimer;
+
+    private double velocityX = 0;
+
+    private List<ImageView> fallingItems = new ArrayList<>();
+
 @Override
 public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        startGame();
+
+        gamePane.setFocusTraversable(true);
+        gamePane.requestFocus();
     }
 
 @FXML
@@ -78,14 +81,14 @@ private void startGame() {
         };
         gameTimer.start();
     }
-    
+
 private void updateBasketPosition() {
         double newX = basket.getLayoutX() + velocityX;
         if (newX >= 0 && newX <= (gamePane.getWidth() - basket.getFitWidth())) {
             basket.setLayoutX(newX);
         }
     }
-    
+
 private void spawnItems() {
         if (Math.random() < 0.1) {
             Item item = generateRandomItem();
@@ -119,7 +122,7 @@ private void spawnItems() {
             }
         }
     }
-    
+
 private Item generateRandomItem() {
         int random = (int) (Math.random() * 4);
         switch (random) {
@@ -157,7 +160,7 @@ private void handleCollision(Item item) {
             endGame();
         }
     }
-    
+
 private void updateScoreAndLives() {
         scoreLabel.setText("Score: " + score);
         livesLabel.setText("Lives: " + playerBasket.getLives());
@@ -167,4 +170,13 @@ private void endGame() {
         gameTimer.stop();
     }
 
+@FXML
+private void onKeyPressed(KeyEvent event) {
+        handleKeyPressed(event);
+    }
+
+@FXML
+private void onKeyReleased(KeyEvent event) {
+        handleKeyReleased(event);
+    }
 }
